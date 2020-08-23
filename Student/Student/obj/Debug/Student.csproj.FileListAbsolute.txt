@@ -1,7 +1,0 @@
-C:\Users\trewe\source\repos\C#\Student\Student\obj\Debug\Student.csprojAssemblyReference.cache
-C:\Users\trewe\source\repos\C#\Student\Student\obj\Debug\Student.csproj.CoreCompileInputs.cache
-C:\Users\trewe\source\repos\C#\Student\Student\bin\Debug\Student.exe.config
-C:\Users\trewe\source\repos\C#\Student\Student\bin\Debug\Student.exe
-C:\Users\trewe\source\repos\C#\Student\Student\bin\Debug\Student.pdb
-C:\Users\trewe\source\repos\C#\Student\Student\obj\Debug\Student.exe
-C:\Users\trewe\source\repos\C#\Student\Student\obj\Debug\Student.pdb
