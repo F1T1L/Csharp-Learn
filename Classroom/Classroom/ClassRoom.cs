@@ -77,7 +77,7 @@ namespace Classroom
         {
             foreach (var item in pupils)
             {
-                Console.WriteLine("Pupil \"{0}\" have stats:", item.Name);               
+                Console.WriteLine($"Pupil \"{item.Name}\" have stats:");                          
                 item.Study();
                 item.Read();
                 item.Write();

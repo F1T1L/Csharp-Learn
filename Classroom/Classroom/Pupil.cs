@@ -8,8 +8,9 @@ namespace Classroom
 {
     class Pupil
     {
-        private string name;
-        public string Name { get; }
+        private string name;       
+        public string Name { get => name; }
+
         public Pupil() { }
         public Pupil(string name)
         {
