@@ -34,10 +34,10 @@ namespace GenericsHW
     // Mylist[] =
     public class MyList<T> : MList<T>
     {
-        public static MyList<T> operator +(MyList<T> list1, T list2)
-        {   
+        //public static MyList<T> operator +(MyList<T> list1, T list2)
+        //{   
 
-        }
+        //}
         public T this[int index]
         {
             get
