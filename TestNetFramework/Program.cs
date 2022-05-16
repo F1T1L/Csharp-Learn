@@ -18,21 +18,9 @@ namespace TestNetFramework
         {
             Console.OutputEncoding = System.Text.Encoding.UTF8;
 
-            Varp<string> v = new Varp<string>(Varp.Default);
-            CarDelegate carDelegate = new CarDelegate("SlugBug", 100, 10);
-            CarDelegate.CarEngineHandler carHandler =new CarDelegate.CarEngineHandler( OnCarEngineEvent);
-            //carDelegate.RegisterWithCarEngineHandler(new CarDelegate.CarEngineHandler(OnCarEngineEvent));           
-            carDelegate.RegisterWithCarEngineHandler(carHandler);
-            carDelegate.RegisterWithCarEngineHandler(OnCarEngineEvent);
-            carDelegate.UnRegisterWithCarEngineHandler(OnCarEngineEvent);
+            LambdaExpressionSyntax();
 
-
-            for (int i = 0; i < 20; i++)
-            {
-                carDelegate.Accelerate(5);
-
-            }
-
+            //DelegatesAndEvents();
             //NewSwitchIsAwsome();         
             //Add(90, 90, out int ans);
             //DayTimeMagic();//кортеж
@@ -46,7 +34,39 @@ namespace TestNetFramework
             //ObservableCollectionPpls();
             //GenericPoint<int> point = new GenericPoint<int>();
             //StopWatchTest();
+        }
 
+        private static void DelegatesAndEvents()
+        {
+            CarDelegate carDelegate = new CarDelegate("SlugBug", 100, 10);
+            CarDelegate.CarEngineHandler carHandler = new CarDelegate.CarEngineHandler(OnCarEngineEvent);
+            //carDelegate.RegisterWithCarEngineHandler(new CarDelegate.CarEngineHandler(OnCarEngineEvent));           
+            carDelegate.RegisterWithCarEngineHandler(carHandler);
+            carDelegate.RegisterWithCarEngineHandler(OnCarEngineEvent);
+            carDelegate.UnRegisterWithCarEngineHandler(OnCarEngineEvent);
+
+
+            for (int i = 0; i < 20; i++)
+            {
+                carDelegate.Accelerate(5);
+
+            }
+        }
+
+        static void LambdaExpressionSyntax()
+        {
+            // Создать список целочисленных значений.
+            List<int> list = new List<int>();
+            list.AddRange(new int[] { 20, 1, 4, 8, 9, 44 });
+            // Теперь использовать лямбда-выражение С#.
+            List<int> evenNumbers = list.FindAll(x => (x % 2) == 0);
+            // Вывести четные числа.
+            Console.WriteLine("Here are your even numbers:");
+            foreach (var evenNumber in evenNumbers)
+            {
+                Console.Write("{0}\t", evenNumber);
+            }
+            Console.WriteLine();
         }
         public int LimitInclusive(int value, int min, int max)
         {

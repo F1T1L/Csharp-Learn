@@ -6,7 +6,9 @@
         ///  Required designer variable.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
-
+        //ебать не лагает!
+        //this.ResizeBegin += (s, e) => { this.SuspendLayout(); };
+        // this.ResizeEnd += (s, e) => { this.ResumeLayout(true); };
         /// <summary>
         ///  Clean up any resources being used.
         /// </summary>
@@ -19,6 +21,7 @@
             }
             base.Dispose(disposing);
         }
+       
 
         #region Windows Form Designer generated code
 
@@ -26,24 +29,37 @@
         ///  Required method for Designer support - do not modify
         ///  the contents of this method with the code editor.
         /// </summary>
-        private void InitializeComponent()
+
+    private void InitializeComponent()
         {
+            this.SetStyle(
+ControlStyles.AllPaintingInWmPaint |
+ControlStyles.UserPaint |
+ControlStyles.DoubleBuffer, true);
             this.cmdGO = new System.Windows.Forms.Button();
             this.txtURL = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.txtResponse = new System.Windows.Forms.TextBox();
+            this.txtResponse = new System.Windows.Forms.RichTextBox();
+            this.ResizeBegin +=(s, e) => { this.SuspendLayout(); };
+            this.ResizeEnd += (s, e) => { this.ResumeLayout(true); };
             this.groupBox1.SuspendLayout();
-            this.SuspendLayout();
+            this.txtResponse.SuspendLayout();
+            this.SuspendLayout();            
             // 
             // cmdGO
             // 
             this.cmdGO.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.cmdGO.BackColor = System.Drawing.Color.MediumSeaGreen;
+            this.cmdGO.FlatAppearance.BorderColor = System.Drawing.Color.Teal;
+            this.cmdGO.FlatAppearance.MouseDownBackColor = System.Drawing.Color.SpringGreen;
+            this.cmdGO.FlatAppearance.MouseOverBackColor = System.Drawing.Color.LimeGreen;
+            this.cmdGO.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cmdGO.Font = new System.Drawing.Font("Arial", 27F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.World);
             this.cmdGO.Location = new System.Drawing.Point(470, 21);
             this.cmdGO.Name = "cmdGO";
             this.cmdGO.Size = new System.Drawing.Size(110, 34);
-            this.cmdGO.TabIndex = 0;
+            this.cmdGO.TabIndex = 1;
             this.cmdGO.Text = "GO!";
             this.cmdGO.UseVisualStyleBackColor = false;
             this.cmdGO.Click += new System.EventHandler(this.cmdGO_Click);
@@ -56,7 +72,7 @@
             this.txtURL.Location = new System.Drawing.Point(192, 21);
             this.txtURL.Name = "txtURL";
             this.txtURL.Size = new System.Drawing.Size(279, 34);
-            this.txtURL.TabIndex = 1;
+            this.txtURL.TabIndex = 0;
             // 
             // label1
             // 
@@ -67,8 +83,7 @@
             this.label1.ImageAlign = System.Drawing.ContentAlignment.TopRight;
             this.label1.Location = new System.Drawing.Point(-1, 13);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(190, 38);
-            this.label1.TabIndex = 2;
+            this.label1.Size = new System.Drawing.Size(190, 38);            
             this.label1.Text = "REST API URL:";
             this.label1.TextAlign = System.Drawing.ContentAlignment.BottomRight;
             // 
@@ -83,24 +98,28 @@
             this.groupBox1.Margin = new System.Windows.Forms.Padding(0);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(0);
-            this.groupBox1.Size = new System.Drawing.Size(581, 152);
-            this.groupBox1.TabIndex = 0;
+            this.groupBox1.Size = new System.Drawing.Size(581, 152);            
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Response:";
             // 
             // txtResponse
-            // 
+            //            
             this.txtResponse.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtResponse.Location = new System.Drawing.Point(0, 27);
-            this.txtResponse.Multiline = true;
+            this.txtResponse.Margin = new System.Windows.Forms.Padding(0);
+            this.txtResponse.Multiline = true;            
             this.txtResponse.Name = "txtResponse";
             this.txtResponse.ReadOnly = true;
-            this.txtResponse.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtResponse.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
             this.txtResponse.Size = new System.Drawing.Size(581, 125);
-            this.txtResponse.TabIndex = 3;
+            this.txtResponse.TabIndex = 2;                     
+                              
+
             // 
             // Form1
             // 
+            this.AcceptButton = this.cmdGO;
+            this.AccessibleDescription = "";
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 28F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(582, 203);
@@ -127,6 +146,6 @@
         private TextBox txtURL;
         private Label label1;
         private GroupBox groupBox1;
-        private TextBox txtResponse;
+        private RichTextBox txtResponse;
     }
 }
