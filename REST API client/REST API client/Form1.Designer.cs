@@ -32,20 +32,13 @@
 
     private void InitializeComponent()
         {
-            this.SetStyle(
-ControlStyles.AllPaintingInWmPaint |
-ControlStyles.UserPaint |
-ControlStyles.DoubleBuffer, true);
             this.cmdGO = new System.Windows.Forms.Button();
             this.txtURL = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.txtResponse = new System.Windows.Forms.RichTextBox();
-            this.ResizeBegin +=(s, e) => { this.SuspendLayout(); };
-            this.ResizeEnd += (s, e) => { this.ResumeLayout(true); };
             this.groupBox1.SuspendLayout();
-            this.txtResponse.SuspendLayout();
-            this.SuspendLayout();            
+            this.SuspendLayout();
             // 
             // cmdGO
             // 
@@ -83,7 +76,8 @@ ControlStyles.DoubleBuffer, true);
             this.label1.ImageAlign = System.Drawing.ContentAlignment.TopRight;
             this.label1.Location = new System.Drawing.Point(-1, 13);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(190, 38);            
+            this.label1.Size = new System.Drawing.Size(190, 38);
+            this.label1.TabIndex = 2;
             this.label1.Text = "REST API URL:";
             this.label1.TextAlign = System.Drawing.ContentAlignment.BottomRight;
             // 
@@ -98,23 +92,22 @@ ControlStyles.DoubleBuffer, true);
             this.groupBox1.Margin = new System.Windows.Forms.Padding(0);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(0);
-            this.groupBox1.Size = new System.Drawing.Size(581, 152);            
+            this.groupBox1.Size = new System.Drawing.Size(581, 152);
+            this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Response:";
             // 
             // txtResponse
-            //            
+            // 
             this.txtResponse.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtResponse.Location = new System.Drawing.Point(0, 27);
             this.txtResponse.Margin = new System.Windows.Forms.Padding(0);
-            this.txtResponse.Multiline = true;            
             this.txtResponse.Name = "txtResponse";
             this.txtResponse.ReadOnly = true;
             this.txtResponse.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
             this.txtResponse.Size = new System.Drawing.Size(581, 125);
-            this.txtResponse.TabIndex = 2;                     
-                              
-
+            this.txtResponse.TabIndex = 2;
+            this.txtResponse.Text = "";
             // 
             // Form1
             // 
@@ -133,8 +126,9 @@ ControlStyles.DoubleBuffer, true);
             this.Name = "Form1";
             this.Text = "REST API client";
             this.Load += new System.EventHandler(this.Form1_Load);
+            this.ResizeBegin += new System.EventHandler(this.MySuspendLayout);
+            this.ResizeEnd += new System.EventHandler(this.MyResizeEnd);
             this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 

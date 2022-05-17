@@ -11,15 +11,24 @@
         private void Form1_Load(object sender, EventArgs e)
         {
             txtURL.PlaceholderText = "Paste URL there!";
+            txtResponse.Text = "Results will be here...";
         }
 
+        private async void MySuspendLayout(object sender, EventArgs e)
+        {
+            this.SuspendLayout();
+        }
+        private async void MyResizeEnd(object sender, EventArgs e)
+        {
+            this.ResumeLayout(true);
+        }
         private async void cmdGO_Click(object sender, EventArgs e)
         {
             txtResponse.Text = "";
 
             if (string.IsNullOrWhiteSpace(txtURL.Text))
             {
-                debugOutput("URL must be NOT EMPTY");
+                DebugOutput("URL must be NOT EMPTY");
                 return;
             }
 
@@ -29,11 +38,11 @@
                 //bool result = Uri.TryCreate(endPoint, UriKind.Absolute, out uriResult)
                 //      && (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps);
 
-                debugOutput("Wrong URL format!");
+                DebugOutput("Wrong URL format!");
                 return;
             }
 
-            debugOutput("Lets try parse it...");
+            DebugOutput("Lets try parse it...");
 
             string response = string.Empty;
             RestClient restClient = new RestClient();
@@ -41,13 +50,10 @@
 
             await Task.Run(StartJob);
 
-            txtResponse.Text = "";  
+            txtResponse.Text = "";
 
             new Thread(() =>
-            this.Invoke( new MethodInvoker( delegate ()
-            {
-                SendResponce();
-            }
+            this.Invoke(new MethodInvoker(async delegate () { await SendResponce(); }
             ))).Start();
 
             async Task StartJob()
@@ -62,30 +68,32 @@
                 }
             }
 
-            void SendResponce()
+            async Task SendResponce()
             {
                 int maxChars = 10000;
-                if (response.Length > maxChars)
+                int i = 0;
+                txtResponse.SuspendLayout();
+                for (i = 0; i < response.Length - maxChars; i += maxChars)
                 {
-                    int i;
-                    for (i = 0; i < response.Length - maxChars; i += maxChars)
-                    {
-                        txtResponse.AppendText(response.Substring(i, maxChars));                        
-                    }
-                    txtResponse.AppendText(response.Substring(i));
+                    txtResponse.AppendText(response.Substring(i, maxChars));
                 }
+                txtResponse.AppendText(response.Substring(i));
+                txtResponse.SelectionStart = txtResponse.TextLength;
+                txtResponse.AppendText(Environment.NewLine + new string('_', 32) +
+                    Environment.NewLine + "Number of symbols: " + txtResponse.TextLength.ToString());
+                txtResponse.ScrollToCaret();
+                txtResponse.ResumeLayout(true);
             }
         }
 
-        private void debugOutput(string strDebugText)
+        private void DebugOutput(string strDebugText)
         {
             try
             {
-                //System.Diagnostics.Debug.Write(strDebugText + Environment.NewLine);
+                System.Diagnostics.Debug.Write(strDebugText + Environment.NewLine);
                 txtResponse.SuspendLayout();
                 txtResponse.Text = txtResponse.Text + strDebugText + Environment.NewLine;
                 txtResponse.SelectionStart = txtResponse.TextLength;
-                //txtResponse.AppendText("Number of symbols: " + txtResponse.TextLength.ToString());
                 txtResponse.ScrollToCaret();
                 txtResponse.ResumeLayout(true);
             }
