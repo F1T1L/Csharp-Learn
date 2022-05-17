@@ -140,6 +140,6 @@
         private TextBox txtURL;
         private Label label1;
         private GroupBox groupBox1;
-        private RichTextBox txtResponse;
+        public RichTextBox txtResponse;
     }
 }

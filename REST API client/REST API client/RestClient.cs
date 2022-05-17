@@ -20,13 +20,16 @@ namespace REST_API_client
         }
         public string makeRequest()
         {
-            string strResponseValue = String.Empty;
+            string strResponseValue = string.Empty;
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(endPoint);
 
             request.Method = httpMethod.ToString();
             request.Timeout = 5000;
             request.KeepAlive = true;
-
+            request.UseDefaultCredentials = true;
+            request.Proxy.Credentials = System.Net.CredentialCache.DefaultCredentials;
+            request.UserAgent = "[any words that is more than 5 characters]";
+            
             HttpWebResponse response = null;
 
             //if (  response.StatusCode.ToString() == "OK" )
