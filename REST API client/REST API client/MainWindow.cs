@@ -48,7 +48,7 @@ namespace REST_API_client
 
             txtResponse.Font = new Font(Font.FontFamily, 12f, FontStyle.Regular); //kolhoz :D
             txtResponse.BackColor = SystemColors.Control;
-            txtResponse.SelectAll();
+            // txtResponse.SelectAll();  wtf?
             txtResponse.SelectionAlignment = HorizontalAlignment.Left;
 
             string response = string.Empty;
@@ -147,7 +147,7 @@ namespace REST_API_client
                                             Environment.NewLine);
                     txtResponse.SelectionStart = txtResponse.TextLength;
                     txtResponse.ScrollToCaret();
-                   // txtResponse.HideSelection = false; /// WTF FREEZE AFTER ALL WORK DONE!!!
+                   // txtResponse.HideSelection = false; /// WTF FREEZE AFTER ALL WORK DONE!!!                   
                     txtResponse.ResumeLayout(true);
                 }
                 bool IsJson(string input)
@@ -171,7 +171,6 @@ namespace REST_API_client
                 cmdGO.BackColor = Color.DarkGray;
                 return color;
             }
-
 
             #endregion
         }
