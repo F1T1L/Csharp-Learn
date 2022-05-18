@@ -1,6 +1,6 @@
 ﻿namespace REST_API_client
 {
-    partial class Form1
+    partial class MainWindow
     {
         /// <summary>
         ///  Required designer variable.
@@ -49,7 +49,7 @@
             this.cmdGO.FlatAppearance.MouseOverBackColor = System.Drawing.Color.LimeGreen;
             this.cmdGO.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cmdGO.Font = new System.Drawing.Font("Arial", 27F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.World);
-            this.cmdGO.Location = new System.Drawing.Point(470, 21);
+            this.cmdGO.Location = new System.Drawing.Point(595, 21);
             this.cmdGO.Name = "cmdGO";
             this.cmdGO.Size = new System.Drawing.Size(110, 34);
             this.cmdGO.TabIndex = 1;
@@ -64,7 +64,7 @@
             this.txtURL.HideSelection = false;
             this.txtURL.Location = new System.Drawing.Point(192, 21);
             this.txtURL.Name = "txtURL";
-            this.txtURL.Size = new System.Drawing.Size(279, 34);
+            this.txtURL.Size = new System.Drawing.Size(404, 34);
             this.txtURL.TabIndex = 0;
             // 
             // label1
@@ -92,7 +92,7 @@
             this.groupBox1.Margin = new System.Windows.Forms.Padding(0);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(0);
-            this.groupBox1.Size = new System.Drawing.Size(581, 152);
+            this.groupBox1.Size = new System.Drawing.Size(706, 302);
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Response:";
@@ -105,26 +105,26 @@
             this.txtResponse.Name = "txtResponse";
             this.txtResponse.ReadOnly = true;
             this.txtResponse.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-            this.txtResponse.Size = new System.Drawing.Size(581, 125);
+            this.txtResponse.Size = new System.Drawing.Size(706, 275);
             this.txtResponse.TabIndex = 2;
             this.txtResponse.Text = "";
             // 
-            // Form1
+            // MainWindow
             // 
             this.AcceptButton = this.cmdGO;
             this.AccessibleDescription = "";
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 28F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(582, 203);
+            this.ClientSize = new System.Drawing.Size(707, 353);
             this.Controls.Add(this.cmdGO);
             this.Controls.Add(this.txtURL);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.groupBox1);
             this.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.Margin = new System.Windows.Forms.Padding(4);
-            this.MinimumSize = new System.Drawing.Size(600, 250);
-            this.Name = "Form1";
-            this.Text = "REST API client";
+            this.MinimumSize = new System.Drawing.Size(725, 400);
+            this.Name = "MainWindow";
+            this.Text = "GrabMyJson";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.ResizeBegin += new System.EventHandler(this.MySuspendLayout);
             this.ResizeEnd += new System.EventHandler(this.MyResizeEnd);

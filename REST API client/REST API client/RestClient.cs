@@ -30,7 +30,7 @@ namespace REST_API_client
             request.Proxy.Credentials = System.Net.CredentialCache.DefaultCredentials;
             request.UserAgent = "[any words that is more than 5 characters]";
             
-            HttpWebResponse response = null;
+            HttpWebResponse? response = null;
 
             //if (  response.StatusCode.ToString() == "OK" )
             //{

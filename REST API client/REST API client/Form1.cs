@@ -1,20 +1,21 @@
-﻿using System.Diagnostics;
+﻿using Newtonsoft.Json;
+using System.Diagnostics;
 
 
 namespace REST_API_client
 {
-    public partial class Form1 : Form
+    public partial class MainWindow : Form
     {
 
-        public Form1()
+        public MainWindow()
         {
-            DoubleBuffered = true;
             InitializeComponent();
         }
         private void Form1_Load(object sender, EventArgs e)
         {
-            txtURL.PlaceholderText = "Paste URL there!";
-            txtResponse.Text = "Results will be here...";
+            txtURL.PlaceholderText = "Paste URL here!";
+            DebugOutput("Results will appear here...");
+            DoubleBuffered = true;
         }
 
         private async void MySuspendLayout(object sender, EventArgs e)
@@ -31,27 +32,25 @@ namespace REST_API_client
 
             if (string.IsNullOrWhiteSpace(txtURL.Text))
             {
-                txtResponse.Font = new Font(Font.FontFamily, 22f, FontStyle.Bold);
-                txtResponse.BackColor = Color.Red;
-                DebugOutput("URL must be NOT EMPTY");
-                txtURL.Text = string.Empty;
+                ErrorWithUrlOutput("\nPlease enter the link above in the field.");
                 return;
             }
 
-            if (!Uri.IsWellFormedUriString(txtURL.Text, UriKind.Absolute))
+            if (!Uri.IsWellFormedUriString(txtURL.Text, UriKind.Absolute)) //check URL, problems with HTTTPS. =(
             {
                 //Uri uriResult;
                 //bool result = Uri.TryCreate(endPoint, UriKind.Absolute, out uriResult)
                 //      && (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps);
-                txtResponse.Font = new Font(Font.FontFamily, 22f, FontStyle.Bold);
-                txtResponse.BackColor = Color.Red;
-                DebugOutput("Wrong URL format!");
-                txtURL.Text = string.Empty;
+
+                ErrorWithUrlOutput("\nWrong URL format!");
                 return;
             }
-            txtResponse.Font = new Font(Font.FontFamily, 12f, FontStyle.Regular);
+
+            txtResponse.Font = new Font(Font.FontFamily, 12f, FontStyle.Regular); //kolhoz :D
             txtResponse.BackColor = SystemColors.Control;
-            
+            txtResponse.SelectAll();
+            txtResponse.SelectionAlignment = HorizontalAlignment.Left;
+
             string response = string.Empty;
             RestClient restClient = new RestClient();
             restClient.endPoint = txtURL.Text;
@@ -61,30 +60,26 @@ namespace REST_API_client
 
             Stopwatch stopWatch = new Stopwatch();
             stopWatch.Start();
+            Color color = TurnOffButtonGO();
 
-            DoAnimationTask();
-
-            Color color = cmdGO.BackColor;
-            cmdGO.Enabled = false;
-            cmdGO.BackColor = Color.DarkGray;
+            DoAnimationTask(); //do animation while parse.
 
             await Task.Run(StartJob);
+
             tokenSource.Cancel(); //cancel DoAnimationTask
 
             new Thread(() =>
-            this.Invoke(new MethodInvoker(async delegate () { await SendResponce(); }
+            this.Invoke(new MethodInvoker(delegate () { SendResponce(); }
             ))).Start();
-            
-            cmdGO.Enabled = true;
-            cmdGO.BackColor = color;
 
+            #region local functions
             void DoAnimationTask()
             {
                 var task = Task.Factory.StartNew(() =>
-                          {
-                              //animation code
-                              WaitingAnimation();
-                          }, tokenSource.Token);
+                {
+                    //animation code
+                    WaitingAnimation();
+                }, tokenSource.Token);
             }
 
             void WaitingAnimation()
@@ -115,24 +110,91 @@ namespace REST_API_client
                 }
             }
 
-            async Task SendResponce()
+            void SendResponce()
             {
-                int i = 0,
-                    maxChars = 10000;
                 txtResponse.Text = string.Empty;
-                txtResponse.SuspendLayout();
-                for (i = 0; i < response.Length - maxChars; i += maxChars)
+                if (IsJson(response))  // maybe, not need, anyway json will throw exception, if its not Json.
                 {
-                    txtResponse.AppendText(response.Substring(i, maxChars));
+                    try
+                    {
+                        txtResponse.AppendText(JsonConvert.DeserializeObject(response, typeof(object)).ToString());
+                    }
+                    catch (Exception ex)
+                    {
+                        System.Diagnostics.Debug.Write(ex.Message, ToString() + Environment.NewLine);
+                    }
                 }
-                txtResponse.AppendText(response.Substring(i));
-                txtResponse.AppendText(Environment.NewLine + new string('_', 32) +
-                    Environment.NewLine + "Response time: " + stopWatch.Elapsed.TotalSeconds +
-                    Environment.NewLine + "Number of symbols: " + txtResponse.TextLength.ToString());
-                txtResponse.HideSelection = false;
+                else
+                {
+                    int i = 0,
+                        maxChars = 10000;
+                    // txtResponse.SuspendLayout();
+                    for (i = 0; i < response.Length - maxChars; i += maxChars)
+                    {
+                        txtResponse.AppendText(response.Substring(i, maxChars));
+                    }
+                    txtResponse.AppendText(response.Substring(i));
+                }
+
+                EndOfResponsePlusStats();
+                TurnOnButtonGO();
+
+                void EndOfResponsePlusStats()
+                {
+                    txtResponse.AppendText(Environment.NewLine + new string('_', 32) +
+                                            Environment.NewLine + "Response time: " + stopWatch.Elapsed.TotalSeconds +
+                                            Environment.NewLine + "Number of symbols: " + txtResponse.TextLength.ToString() +
+                                            Environment.NewLine);
+                    txtResponse.SelectionStart = txtResponse.TextLength;
+                    txtResponse.ScrollToCaret();
+                   // txtResponse.HideSelection = false; /// WTF FREEZE AFTER ALL WORK DONE!!!
+                    txtResponse.ResumeLayout(true);
+                }
+                bool IsJson(string input)
+                {
+                    input = input.Trim();
+                    return input.StartsWith("{") && input.EndsWith("}")
+                           || input.StartsWith("[") && input.EndsWith("]");
+                }
+            }
+
+            void TurnOnButtonGO()
+            {
+                cmdGO.BackColor = color;
+                cmdGO.Enabled = true;
+            }
+
+            Color TurnOffButtonGO()
+            {
+                Color color = cmdGO.BackColor;
+                cmdGO.Enabled = false;          //turn off button (clicks and "Enter").
+                cmdGO.BackColor = Color.DarkGray;
+                return color;
+            }
+
+
+            #endregion
+        }
+
+        private void ErrorWithUrlOutput(string strDebugText)
+        {
+            try
+            {
+                txtResponse.Font = new Font(Font.FontFamily, 22f, FontStyle.Bold);
+                txtResponse.BackColor = Color.Red;
+                txtResponse.SelectionAlignment = HorizontalAlignment.Center;
+                txtURL.Text = string.Empty;
+
+                System.Diagnostics.Debug.Write(strDebugText + Environment.NewLine);
+                txtResponse.SuspendLayout();
+                txtResponse.Text = txtResponse.Text + strDebugText + Environment.NewLine;
                 txtResponse.SelectionStart = txtResponse.TextLength;
-                txtResponse.ScrollToCaret();                               
+                txtResponse.ScrollToCaret();
                 txtResponse.ResumeLayout(true);
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.Write(ex.Message, ToString() + Environment.NewLine);
             }
         }
         private void DebugOutput(string strDebugText)
