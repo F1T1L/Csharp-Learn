@@ -10,6 +10,7 @@ namespace REST_API_client
         public MainWindow()
         {
             InitializeComponent();
+            DoubleBuffered = true;
         }
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -46,10 +47,7 @@ namespace REST_API_client
                 return;
             }
 
-            txtResponse.Font = new Font(Font.FontFamily, 12f, FontStyle.Regular); //kolhoz :D
-            txtResponse.BackColor = SystemColors.Control;
-            // txtResponse.SelectAll();  wtf?
-            txtResponse.SelectionAlignment = HorizontalAlignment.Left;
+            SetupFontStyle();
 
             string response = string.Empty;
             RestClient restClient = new RestClient();
@@ -60,6 +58,7 @@ namespace REST_API_client
 
             Stopwatch stopWatch = new Stopwatch();
             stopWatch.Start();
+
             Color color = TurnOffButtonGO();
 
             DoAnimationTask(); //do animation while parse.
@@ -147,7 +146,7 @@ namespace REST_API_client
                                             Environment.NewLine);
                     txtResponse.SelectionStart = txtResponse.TextLength;
                     txtResponse.ScrollToCaret();
-                   // txtResponse.HideSelection = false; /// WTF FREEZE AFTER ALL WORK DONE!!!                   
+                    // txtResponse.HideSelection = false; /// WTF FREEZE AFTER ALL WORK DONE!!!                   
                     txtResponse.ResumeLayout(true);
                 }
                 bool IsJson(string input)
@@ -172,6 +171,14 @@ namespace REST_API_client
                 return color;
             }
 
+            void SetupFontStyle()
+            {
+                txtResponse.Font = new Font(Font.FontFamily, 12f, FontStyle.Regular); //kolhoz :D
+                txtResponse.BackColor = SystemColors.Control;
+                // txtResponse.SelectAll();  
+                txtResponse.SelectionAlignment = HorizontalAlignment.Left;
+            }
+
             #endregion
         }
 
@@ -182,7 +189,7 @@ namespace REST_API_client
                 txtResponse.Font = new Font(Font.FontFamily, 22f, FontStyle.Bold);
                 txtResponse.BackColor = Color.Red;
                 txtResponse.SelectionAlignment = HorizontalAlignment.Center;
-                txtURL.Text = string.Empty;
+                txtURL.Clear();
 
                 System.Diagnostics.Debug.Write(strDebugText + Environment.NewLine);
                 txtResponse.SuspendLayout();
