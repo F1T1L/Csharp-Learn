@@ -19,11 +19,11 @@ namespace REST_API_client
             DoubleBuffered = true;
         }
 
-        private async void MySuspendLayout(object sender, EventArgs e)
+        private void MySuspendLayout(object sender, EventArgs e)
         {
             this.SuspendLayout();
         }
-        private async void MyResizeEnd(object sender, EventArgs e)
+        private void MyResizeEnd(object sender, EventArgs e)
         {
             this.ResumeLayout(true);
         }
@@ -33,7 +33,7 @@ namespace REST_API_client
 
             if (string.IsNullOrWhiteSpace(txtURL.Text))
             {
-                ErrorWithUrlOutput("\nPlease enter the link above in the field.");
+                UrlErrorOutput("\nPlease enter the link above in the field.");
                 return;
             }
 
@@ -43,7 +43,7 @@ namespace REST_API_client
                 //bool result = Uri.TryCreate(endPoint, UriKind.Absolute, out uriResult)
                 //      && (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps);
 
-                ErrorWithUrlOutput("\nWrong URL format!");
+                UrlErrorOutput("\nWrong URL format!");
                 return;
             }
 
@@ -182,7 +182,7 @@ namespace REST_API_client
             #endregion
         }
 
-        private void ErrorWithUrlOutput(string strDebugText)
+        private void UrlErrorOutput(string strDebugText)
         {
             try
             {
